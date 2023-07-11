@@ -1,0 +1,16 @@
+========== Install =================
+conda install -c conda-forge dash
+pip install dash-bootstrap-components
+
+
+https://dash.plot.ly/
+
+-- Core components
+https://dash.plot.ly/dash-core-components
+
+-- HTML Components
+https://dash.plot.ly/dash-html-components
+
+========== Maps =================
+Difference between GeoMaps and MapboxMaps:
+https://plotly.com/python/mapbox-layers/
