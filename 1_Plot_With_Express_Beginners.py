@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 from pandas import DataFrame
 import numpy as np
-from Generate_Data_For_Examples import *
+from data.Generate_Data_For_Examples import *
 
 ##%
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']

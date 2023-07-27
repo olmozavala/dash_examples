@@ -2,9 +2,8 @@ import json
 from textwrap import dedent as d
 
 import dash
-import dash_core_components as dcc
+from dash import html, dcc, Input, Output, State
 import dash_bootstrap_components as dbc
-import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.express as px
 import numpy as np
@@ -35,10 +34,10 @@ my_anotation = dict(
 # https://plotly.github.io/plotly.py-docs/generated/plotly.express.scatter_mapbox.html
 # https://plotly.com/python-api-reference/generated/plotly.graph_objects.Scattermapbox.html
 us_cities = pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/us-cities-top-1k.csv")
-# fig = px.scatter_mapbox(data_frame=us_cities, lat="lat", lon="lon", hover_name="City", hover_data=["State", "Population"],
-#                         color_discrete_sequence=["fuchsia"], zoom=3, height=300)
-fig = px.scatter_mapbox(lat=np.arange(37.5, 41.5, .5), lon=np.arange(-95.5, -99.5, -.5),
+fig = px.scatter_mapbox(data_frame=us_cities, lat="lat", lon="lon", hover_name="City", hover_data=["State", "Population"],
                         color_discrete_sequence=["fuchsia"], zoom=3, height=300)
+# fig = px.scatter_mapbox(lat=np.arange(37.5, 41.5, .5), lon=np.arange(-95.5, -99.5, -.5),
+                        # color_discrete_sequence=["fuchsia"], zoom=3, height=300)
 fig.update_layout(mapbox_style="open-street-map", margin={"r":0,"t":0,"l":0,"b":0}, annotations=[my_anotation])
 the_map1 = dcc.Graph(figure=fig, id="id-map")
 
@@ -50,6 +49,8 @@ my_data = [ # https://plotly.com/python-api-reference/generated/plotly.graph_obj
         lat=lats,
         lon=lons,
         type="scattermapbox",
+        # type="densitymapbox",
+        # type="choroplethmapbox",
         # fill="none", # none, toself, (only toself is working
         customdata=[F"Nany:{x}" for x in lats],
         meta=[F"META:{x}" for x in lons],

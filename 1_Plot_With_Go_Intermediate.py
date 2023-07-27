@@ -11,9 +11,14 @@ import plotly.express as px
 from pandas import DataFrame
 import pandas as pd
 import numpy as np
-from Generate_Data_For_Examples import *
+from data.Generate_Data_For_Examples import *
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+
+colors = {
+    'background': '#111111',
+    'text': '#7FDBFF'
+}
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -37,53 +42,52 @@ app.layout = dbc.Container(fluid=True, children=[
         # https://plotly.com/python-api-reference/generated/plotly.express.scatter.html#plotly.express.scatter
         dbc.Col(dcc.Graph(
             id='scatter',
-            figure={'data':[{'x':age, 'y':height, 'mode':"markers"}],
-                    'layout':{'title':"Scatter"}}
+            figure=go.Figure(data=go.Scatter(x=age, y=height, mode="markers"), layout=go.Layout(title="Scatter"))
         ), width=4),
         # https://plotly.com/python/reference/scatter3d/
         dbc.Col(dcc.Graph(
             id='scatter3d',
-            figure={'data':[{'x':age, 'y':height, 'z':weight, 'mode':"markers", 'type':'scatter3d'}],
-                    'layout':{'title':"Scatter3D"}}
+             figure=go.Figure(data=go.Scatter3d(x=age, y=height, z=weight, mode="markers"), layout=go.Layout(title="Scatter3D"))
         ), width=4),
         # https://plotly.com/python/reference/scattergeo/
         dbc.Col(dcc.Graph(
             id='scattergeo',
-            figure={'data':[{'lat':age, 'lon':height, 'mode':"markers", 'type':'scattergeo'}],
-                    'layout':{'title':"ScatterGeo"}}
+            figure=go.Figure(data=go.Scattergeo(lat=age, lon=height, mode="markers"), 
+                             layout=go.Layout(title="ScatterGeo"))
         ), width=4),
     ]),
+    # ================= First row of plots ===================
     dbc.Row([
         # https://plotly.com/python/reference/image/
         dbc.Col(dcc.Graph(
             id='imshow',
-            figure={'data':[{'z':255*np.random.random((200,200,3)), 'type':'image'}],
-                    'layout':{'title':"Image"}}
-), width=4),
+            figure=go.Figure(go.Image(z=255*np.random.random((200,200,3))))
+        ), width=4),
         # https://plotly.com/python/reference/choropleth/
         dbc.Col(dcc.Graph(
             id='choromap',
             # The link between the dataframe and the countries is trough the 'locations' attribute.
-            figure={'data':[{'z':df['unemp'], 'zmin':0, 'zmax':12, 'locations':df['fips'],
-                       'geojson':counties, 'colorscale':'Viridis', 'type':'choropleth'}],
-                        'layout':{'title':"Image"}}
+            figure=go.Figure(go.Choropleth(z=df['unemp'], zmin=0, zmax=12, locations=df['fips'], geojson=counties, colorscale="Viridis"))
+            # figure=px.choropleth(df, geojson=counties, locations='fips', color='unemp',
+            #                      color_continuous_scale="Viridis",
+            #                      range_color=(0, 12),
+            #                      scope="usa",
+            #                      labels={'unemp':'unemployment rate'}
+            #                      )
         ), width=4),
         # https://plotly.com/python/reference/surface/
         dbc.Col(dcc.Graph(
             id='surface',
             # The link between the dataframe and the countries is trough the 'locations' attribute.
             # https://plotly.com/python/reference/layout/scene/
-            figure={'data':[{'z':Z, 'type':'surface'}],
-                'layout':{
-                    'scene':{
-                        'bgcolor':"rgb(250,0,0)",
-                        "xaxis": {"nticks": 20},
-                        "zaxis": {"nticks": 4},
-                        'camera_eye': {"x": 0, "y": -1, "z": 0.5},
-                        "aspectratio": {"x": 1, "y": 1, "z": 1}
-                        }
-                }}
-        ), width=4),
+            figure=go.Figure(data=go.Surface(z=Z), layout=go.Layout(scene={
+                'bgcolor':"rgb(250,0,0)",
+                "xaxis": {"nticks": 20},
+                "zaxis": {"nticks": 4},
+                'camera_eye': {"x": 0, "y": -1, "z": 0.5},
+                "aspectratio": {"x": 1, "y": 1, "z": 1}
+            }))
+), width=4),
     ]),
 ])
 

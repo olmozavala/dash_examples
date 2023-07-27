@@ -7,7 +7,7 @@ import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
 from pandas import DataFrame
-from Generate_Data_For_Examples import *
+from data.Generate_Data_For_Examples import *
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -170,4 +170,4 @@ def display_relayout_data(value):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True, port=8051)
