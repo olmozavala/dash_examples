@@ -1,3 +1,7 @@
+"""
+This example demonstrates a basic callback implementation with multiple outputs.
+It takes two text inputs and updates two different output divs accordingly.
+"""
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
@@ -26,4 +30,4 @@ def update_output_div(in1, in2):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)

@@ -1,3 +1,7 @@
+"""
+This example shows how to handle interactive graph events.
+It demonstrates capturing Hover, Click, Selection, and Zoom/Relayout data from a Plotly graph.
+"""
 import json
 from textwrap import dedent as d
 
@@ -125,4 +129,4 @@ def display_relayout_data(relayoutData):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8052)
+    app.run(debug=True, port=8052)

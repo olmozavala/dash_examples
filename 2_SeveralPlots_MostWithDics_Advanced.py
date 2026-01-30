@@ -1,3 +1,7 @@
+"""
+This example demonstrates how to create layouts with multiple plots using various methods.
+It combines Plotly Express, Graph Objects, and dictionary-based definitions to show flexibility in creating complex dashboards.
+"""
 import dash
 import dash_bootstrap_components as dbc
 from dash import dcc, html
@@ -170,4 +174,4 @@ def display_relayout_data(value):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8051)
+    app.run(debug=True, port=8051)

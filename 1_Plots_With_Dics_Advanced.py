@@ -1,3 +1,7 @@
+"""
+This example demonstrates advanced plotting techniques using dictionaries for configuration.
+It covers creating Heatmaps, Contours, and other complex visualizations by directly manipulating the figure dictionary structure.
+"""
 # %%
 import dash
 from urllib.request import urlopen
@@ -32,7 +36,7 @@ thermal_rgb = cmocean_to_plotly(cmo.thermal, 255)
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-ds = xr.open_dataset("/home/olmozavala/Dropbox/TestData/netCDF/GoM/gom.nc", decode_times=False)
+ds = xr.open_mfdataset("/home/olmozavala/Dropbox/TestData/netCDF/GoM/*.nc", decode_times=False)
 img_data = ds['surf_el'][0,:,:]
 lats = ds['lat'].values
 lons = ds['lon'].values
@@ -66,19 +70,19 @@ app.layout = dbc.Container(fluid=True, children=[
         dbc.Col(dcc.Graph(
             id='scatter',
             figure={'data':[{'x':age, 'y':height, 'mode':"markers"}],
-                    'layout':{'title':"Scatter"}}
+                    'layout':{'title': {'text': "Scatter"}, 'margin': {'t': 50}}}
         ), width=4),
         # https://plotly.com/python/reference/scatter3d/
         dbc.Col(dcc.Graph(
             id='scatter3d',
             figure={'data':[{'x':age, 'y':height, 'z':weight, 'mode':"markers", 'type':'scatter3d'}],
-                    'layout':{'title':"Scatter3D"}}
+                    'layout':{'title': {'text': "Scatter3D"}, 'margin': {'t': 50}}}
         ), width=4),
         # https://plotly.com/python/reference/scattergeo/
         dbc.Col(dcc.Graph(
             id='scattergeo',
             figure={'data':[{'lat':age, 'lon':height, 'mode':"markers", 'type':'scattergeo'}],
-                    'layout':{'title':"ScatterGeo"}}
+                    'layout':{'title': {'text': "ScatterGeo"}, 'margin': {'t': 50}}}
         ), width=4),
     ]),
     # ================= Second row of plots ===================
@@ -87,21 +91,23 @@ app.layout = dbc.Container(fluid=True, children=[
         dbc.Col(dcc.Graph(
             id='heatmap',
             figure={'data':[ dict(
-                    z=img_data.data,
+                    z=img_data.values,
                     type='heatmap', # type='heatmap' | 'heatmapgl'
                     x=lons, y=lats,
                     text="sopas",
                     hoverinfo="${z:0.2f}", # x,y,z,text,name
                     colorscale=thermal_rgb
                     )], 
-                    'layout': dict(
-                        title="HeatmapGL",
-                        dragmode="drawline", 
+                    'layout': {
+                        'title': {'text': "Heatmap"},
+                        'margin': {'t': 50},
+                        'yaxis': {'scaleanchor': "x", 'scaleratio': 1},
+                        'dragmode': "drawline",
                         # "zoom" | "pan" | "select" | "lasso" | 
                         # "drawclosedpath" | "drawopenpath" | "drawline" 
                         # "drawrect" | "drawcircle" | "orbit" | "turntable" | 
                         # All the otpions are here: https://github.com/plotly/plotly.js/blob/master/src/components/modebar/buttons.js
-                    )},
+                    }},
             # https://plotly.com/javascript/configuration-options
             config=dict(
                 modeBarButtonsToRemove=['zoom2d','zoomOut2d','zoomIn2d'],
@@ -120,15 +126,17 @@ app.layout = dbc.Container(fluid=True, children=[
         dbc.Col(dcc.Graph(
             id='imcontour',
             figure={'data':[ dict(
-                    z=img_data.data,
+                    z=img_data.values,
                     type='contour',
                     x=lons, y=lats,
                     colorscale=thermal_rgb
                     )], 
-                    'layout': dict(
-                        title="Contour",
-                        dragmode="drawcircle",
-                    )}),
+                    'layout': {
+                        'title': {'text': "Contour"},
+                        'margin': {'t': 50},
+                        'yaxis': {'scaleanchor': "x", 'scaleratio': 1},
+                        'dragmode': "drawcircle",
+                    }}),
                       width=6),
     ]),
     # ================= Third row Just outputs of callbacks ======
@@ -144,7 +152,7 @@ app.layout = dbc.Container(fluid=True, children=[
             # The link between the dataframe and the countries is trough the 'locations' attribute.
             figure={'data':[{'z':df['unemp'], 'zmin':0, 'zmax':12, 'locations':df['fips'],
                        'geojson':counties, 'colorscale':'Viridis', 'type':'choropleth'}],
-                        'layout':{'title':"Image"}}
+                        'layout':{'title': {'text': "Choropleth"}, 'margin': {'t': 50}}}
         ), width=4),
         # https://plotly.com/python/reference/surface/
         dbc.Col(dcc.Graph(
@@ -153,6 +161,8 @@ app.layout = dbc.Container(fluid=True, children=[
             # https://plotly.com/python/reference/layout/scene/
             figure={'data':[{'z':Z, 'type':'surface'}],
                 'layout':{
+                    'title': {'text': "Surface"},
+                    'margin': {'t': 50},
                     'scene':{
                         'bgcolor':"rgb(250,0,0)",
                         "xaxis": {"nticks": 20},
@@ -188,4 +198,4 @@ def display_click_data(click_data, selected_data, relayout_data):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True, port=8051)

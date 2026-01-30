@@ -1,3 +1,7 @@
+"""
+This example demonstrates dynamic layout generation.
+It allows users to add new rows/columns dynamically to the application layout using callbacks.
+"""
 import json
 from textwrap import dedent as d
 
@@ -37,4 +41,4 @@ def display_relayout_data(children, clicks):
         return children
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)

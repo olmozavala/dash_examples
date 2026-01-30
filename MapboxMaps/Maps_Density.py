@@ -1,3 +1,7 @@
+"""
+This example demonstrates how to create a Density Mapbox.
+It reads NetCDF data using xarray and visualizes it as a density heatmap on a mapbox style map.
+"""
 import json
 from textwrap import dedent as d
 import numpy as np
@@ -93,4 +97,4 @@ app.layout = html.Div([
 ])
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)

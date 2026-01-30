@@ -1,3 +1,7 @@
+"""
+This example demonstrates how to use the dcc.Upload component.
+It shows how to parse and display uploaded file contents (images and text) with their metadata.
+"""
 import datetime
 
 import dash
@@ -63,4 +67,4 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)

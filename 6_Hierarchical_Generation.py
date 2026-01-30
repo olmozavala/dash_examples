@@ -1,3 +1,7 @@
+"""
+This example demonstrates hierarchical dynamic content generation.
+It shows how to create nested levels of buttons and content programmatically based on user interactions.
+"""
 import json
 from textwrap import dedent as d
 
@@ -71,8 +75,10 @@ def display_relayout_data(prev_children, n_clicks, lev2_n_clicks_all):
     triggered_id = ctx.triggered_id
     print(triggered_id)
     if triggered_id == None:
-         return []
+        print("No triggered_id")
+        return []
     elif triggered_id == 'main_button':
+        print(f"Main button clicked: {triggered_id} n_clicks: {n_clicks}")
         if n_clicks == None:
             return []
         else:
@@ -97,4 +103,4 @@ def display_relayout_data(prev_children, n_clicks, lev2_n_clicks_all):
             return prev_children
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run(debug=True)

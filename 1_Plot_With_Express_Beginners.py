@@ -1,3 +1,7 @@
+"""
+This example demonstrates beginner-level plotting using Plotly Express.
+It includes Scatter, Scatter 3D, Scatter Geo, Image showing, and Choropleth maps.
+"""
 #%%
 import dash
 from dash import dcc, html
@@ -86,5 +90,5 @@ def display_relayout_data(value):
         return value
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
-    # app.run_server(debug=False, port=8051, host='146.201.212.115')
+    app.run(debug=True)
+    # app.run(debug=False, port=8051, host='146.201.212.115')

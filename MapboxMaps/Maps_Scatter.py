@@ -1,3 +1,7 @@
+"""
+This example demonstrates how to create Scatter Mapbox visualizations.
+It shows two methods: using Plotly Express with a dataframe, and using Graph Objects for multi-layer maps with custom data and styles.
+"""
 import json
 from textwrap import dedent as d
 
@@ -187,4 +191,4 @@ def display_relayout_data(relayoutData):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)

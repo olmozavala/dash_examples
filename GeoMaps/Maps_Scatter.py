@@ -1,3 +1,7 @@
+"""
+This example demonstrates how to create Geo maps (not Mapbox) using Plotly Express.
+It reads NetCDF data and visualizes it using `line_geo` (or scatter_geo) with various map projection configurations.
+"""
 import json
 from textwrap import dedent as d
 
@@ -96,4 +100,4 @@ def display_hover_data(clickedData):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)
